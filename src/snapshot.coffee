@@ -11,8 +11,8 @@ serializeModule = (module) ->
   else
     module.serialized = true
 
-  # Ignore native module.
-  if module.filename.substr(-5, 5) is '.node'
+  # Only cache .js file.
+  if module.filename.substr(-3, 3) isnt '.js'
     return null
 
   id: module.id
