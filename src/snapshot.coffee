@@ -11,6 +11,10 @@ serializeModule = (module) ->
   else
     module.serialized = true
 
+  # Ignore native module.
+  if module.filename.substr(-5, 5) is '.node'
+    return null
+
   id: module.id
   filename: module.filename
   paths: module.paths
@@ -25,6 +29,9 @@ dumpModuleTree = (parent, predicate) ->
     # because some modules used by it still need to be cached.
     serialized = dumpModuleTree module, predicate
     root.children[i] = serialized
+
+    # Skip this module.
+    continue unless serialized?
 
     # The 'null' content means it should not be cached.
     if predicate module.name
