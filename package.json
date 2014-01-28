@@ -1,0 +1,33 @@
+{
+  "main": "./lib/require-snapshot.js",
+  "name": "require-snapshot",
+  "description": "Save and restore require function's cache",
+  "version": "0.1.0",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/atom/require-snapshot/raw/master/LICENSE.md"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atom/require-snapshot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atom/require-snapshot/issues"
+  },
+  "scripts": {
+    "prepublish": "grunt clean coffee",
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.6.6",
+    "grunt-cli": "~0.1.7",
+    "grunt-shell": "~0.2.2",
+    "coffee-script": "~1.6.2",
+    "jasmine-focused": "~0.15.0",
+    "rimraf": "~2.1.4",
+    "grunt-coffeelint": "0.0.6"
+  }
+}
