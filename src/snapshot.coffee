@@ -16,7 +16,7 @@ serializeModule = (module) ->
   paths: module.paths
   children: new Array(module.children.length)  # preallocate array for performance.
 
-dumpModuleTree = (parent, predicate=-> true) ->
+dumpModuleTree = (parent, predicate) ->
   root = serializeModule parent
   return null unless root
 

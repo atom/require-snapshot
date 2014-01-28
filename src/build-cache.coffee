@@ -1,6 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-vm  = require 'vm'
+vm = require 'vm'
 Module = require 'module'
 
 compileModule = (module, content) ->
@@ -21,7 +21,7 @@ compileModule = (module, content) ->
 
 buildCacheFromLeaf = (cache, parent, leaf) ->
   # User didn't want to cache this.
-  return null if leaf.content is null
+  return null unless leaf?.content?
   # Do not override existing cache.
   return cache[leaf.filename] if cache[leaf.filename]
 
@@ -47,9 +47,9 @@ buildCacheFromLeaves = (cache, parent, leaves) ->
   buildCacheFromLeaf cache, parent, module for module in leaves
 
 buildCacheFromTree = (cache, root, tree) ->
-  # if tree.id isnt '.' or root.filename isnt tree.filename
-  #   console.error "Cache file is for #{tree.filename}"
-  #   return
+  if tree.id isnt '.' or root.filename isnt tree.filename
+    console.error "Cache file is for #{tree.filename}"
+    return
 
   buildCacheFromLeaves cache, root, tree.children
 
