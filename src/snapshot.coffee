@@ -23,7 +23,7 @@ dumpModuleTree = (parent, predicate) ->
   for module, i in parent.children
     # Notice that we still dump the module even when the user doesn't want it,
     # because some modules used by it still need to be cached.
-    serialized = dumpModuleTree module
+    serialized = dumpModuleTree module, predicate
     root.children[i] = serialized
 
     # The 'null' content means it should not be cached.
