@@ -19,20 +19,15 @@ serializeModule = (module) ->
   paths: module.paths
   children: []
 
-dumpModuleTree = (parent, predicate) ->
+dumpModuleTree = (parent) ->
   root = serializeModule parent
   return null unless root?
 
   for module in parent.children
-    # Notice that we still dump the module even when the user doesn't want it,
-    # because some modules used by it still need to be cached.
-    serialized = dumpModuleTree module, predicate
+    serialized = dumpModuleTree module
 
     # Skip this module.
     continue unless serialized?
-
-    # The user doesn't want it.
-    continue unless predicate module.filename
 
     # Only cache content of .js file.
     if module.filename.substr(-3, 3) is '.js'
@@ -41,7 +36,7 @@ dumpModuleTree = (parent, predicate) ->
     root.children.push serialized
   root
 
-snapshot = (parent, predicate) ->
-  serialization.serialize dumpModuleTree(parent, predicate)
+snapshot = (parent) ->
+  serialization.serialize dumpModuleTree(parent)
 
 exports.snapshot = snapshot

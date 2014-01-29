@@ -21,8 +21,6 @@ compileModule = (module, content) ->
   compiled.apply exports, [exports, require, module, filename, dirname]
 
 buildCacheFromLeaf = (cache, parent, leaf) ->
-  # User didn't want to cache this.
-  return null unless leaf?.content?
   # Do not override existing cache.
   return cache[leaf.filename] if cache[leaf.filename]
 
@@ -35,7 +33,6 @@ buildCacheFromLeaf = (cache, parent, leaf) ->
     children: []
     paths: leaf.paths
   compileModule module, leaf.content
-  console.log 'Adding', module
 
   # Add parent's children array (it's not used by node actually).
   parent.children.push module
