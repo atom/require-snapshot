@@ -1,3 +1,4 @@
+serialization = require './serialization'
 fs = require 'fs'
 path = require 'path'
 vm = require 'vm'
@@ -54,6 +55,6 @@ buildCacheFromTree = (cache, root, tree) ->
   buildCacheFromLeaves cache, root, tree.children
 
 buildCache = (cache, root, str) ->
-  buildCacheFromTree cache, root, JSON.parse(str)
+  buildCacheFromTree cache, root, serialization.deserialize(str)
 
 exports.buildCache = buildCache

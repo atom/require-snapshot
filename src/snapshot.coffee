@@ -1,8 +1,11 @@
+serialization = require './serialization'
 fs = require 'fs'
 
 readModuleContent = (module) ->
   content = fs.readFileSync module.filename
-  "(function (exports, require, module, __filename, __dirname) { #{content}\n});"
+  header = new Buffer('(function (exports, require, module, __filename, __dirname) {')
+  footer = new Buffer('\n});')
+  Buffer.concat [header, content, footer]
 
 serializeModule = (module) ->
   # Prevent duplicate cache.
@@ -39,6 +42,6 @@ dumpModuleTree = (parent, predicate) ->
   root
 
 snapshot = (parent, predicate) ->
-  JSON.stringify dumpModuleTree(parent, predicate)
+  serialization.serialize dumpModuleTree(parent, predicate)
 
 exports.snapshot = snapshot

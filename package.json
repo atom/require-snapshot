@@ -29,5 +29,8 @@
     "jasmine-focused": "~0.15.0",
     "rimraf": "~2.1.4",
     "grunt-coffeelint": "0.0.6"
+  },
+  "dependencies": {
+    "bson": "0.2.5"
   }
 }
