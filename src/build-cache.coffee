@@ -32,14 +32,17 @@ buildCacheFromLeaf = (cache, parent, leaf) ->
     loaded: true
     children: []
     paths: leaf.paths
+
+  buildCacheFromLeaves cache, module, leaf.children
+
+  # Compile after all the children have been compiled, otherwise the cache would
+  # not be hit.
   compileModule module, leaf.content
 
   # Add parent's children array (it's not used by node actually).
   parent.children.push module
   # Add to cache.
   cache[leaf.filename] = module
-
-  buildCacheFromLeaves cache, module, leaf.children
 
 buildCacheFromLeaves = (cache, parent, leaves) ->
   buildCacheFromLeaf cache, parent, module for module in leaves
