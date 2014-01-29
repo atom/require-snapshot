@@ -1,4 +1,4 @@
-moduleCompilation = require './module'
+moduleCompilation = require './module-compilation'
 serialization = require './serialization'
 fs = require 'fs'
 
@@ -20,12 +20,15 @@ serializeModule = (module) ->
   paths: module.paths
   children: []
 
-dumpModuleTree = (parent) ->
+dumpModuleTree = (parent, predicate) ->
+  # The user wants to skip this tree.
+  return null unless predicate parent.filename
+
   root = serializeModule parent
   return null unless root?
 
   for module in parent.children
-    serialized = dumpModuleTree module
+    serialized = dumpModuleTree module, predicate
 
     # Skip this module.
     continue unless serialized?
@@ -37,7 +40,7 @@ dumpModuleTree = (parent) ->
     root.children.push serialized
   root
 
-snapshot = (parent) ->
-  serialization.serialize dumpModuleTree(parent)
+snapshot = (parent, predicate) ->
+  serialization.serialize dumpModuleTree(parent, predicate)
 
 exports.snapshot = snapshot

@@ -1,4 +1,4 @@
-moduleCompilation = require './module'
+moduleCompilation = require './module-compilation'
 serialization = require './serialization'
 
 buildCacheFromLeaf = (cache, parent, leaf) ->
@@ -13,14 +13,14 @@ buildCacheFromLeaf = (cache, parent, leaf) ->
     loaded: true
     children: []
     paths: leaf.paths
-  console.log 'Adding module', module.id
 
+  console.log 'Adding module', module.filename
   buildCacheFromLeaves cache, module, leaf.children
 
   # Compile after all the children have been compiled, otherwise the cache would
   # not be hit.
+  console.log 'Compiling module', module.filename
   moduleCompilation.compileModule module, leaf.content
-  console.log 'Compiling module', module.id
 
   # Add parent's children array (it's not used by node actually).
   parent.children.push module
