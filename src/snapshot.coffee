@@ -1,3 +1,4 @@
+moduleCompilation = require './module'
 serialization = require './serialization'
 fs = require 'fs'
 
@@ -30,7 +31,7 @@ dumpModuleTree = (parent) ->
     continue unless serialized?
 
     # Only cache content of .js file.
-    if module.filename.substr(-3, 3) is '.js'
+    if moduleCompilation.getExtension(module) is '.js'
       serialized.content = readModuleContent module
 
     root.children.push serialized
